@@ -4,6 +4,13 @@
   var c = null;
   var d = undefined
 
+  let e = "RutujaCutie";
+  {
+    let e = "Rutuja";
+    console.log(e);
+  }
+  console.log(e);
+
 console.log(a);
 console.log(b);
 console.log(c);
