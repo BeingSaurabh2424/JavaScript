@@ -15,3 +15,10 @@ console.log(a);
 console.log(b);
 console.log(c);
 console.log(d);
+
+const author = "Harry Brook";
+
+// author = "Saurabh Wadekar";  // will throw an error
+
+// console.log(author);   cannot do since author is declared as constant
+console.log(author); 
