@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catch the Ball Game</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #f0f0f0;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let basket = {
+      x: canvas.width / 2 - 50,
+      y: canvas.height - 30,
+      width: 100,
+      height: 20,
+      speed: 20
+    };
+
+    let ball = {
+      x: Math.random() * canvas.width,
+      y: 0,
+      radius: 20,
+      speed: 5
+    };
+
+    let score = 0;
+
+    function drawBasket() {
+      ctx.fillStyle = 'brown';
+      ctx.fillRect(basket.x, basket.y, basket.width, basket.height);
+    }
+
+    function drawBall() {
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'red';
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function drawScore() {
+      ctx.font = '20px Arial';
+      ctx.fillStyle = 'black';
+      ctx.fillText('Score: ' + score, 10, 30);
+    }
+
+    function updateBall() {
+      ball.y += ball.speed;
+      if (ball.y + ball.radius > canvas.height) {
+        alert('Game Over! Final Score: ' + score);
+        score = 0;
+        ball.x = Math.random() * canvas.width;
+        ball.y = 0;
+      }
+
+      if (ball.y + ball.radius >= basket.y &&
+          ball.x > basket.x &&
+          ball.x < basket.x + basket.width) {
+        score++;
+        ball.x = Math.random() * canvas.width;
+        ball.y = 0;
+      }
+    }
+
+    function moveBasket(event) {
+      if (event.key === 'ArrowLeft' && basket.x > 0) {
+        basket.x -= basket.speed;
+      } else if (event.key === 'ArrowRight' && basket.x + basket.width < canvas.width) {
+        basket.x += basket.speed;
+      }
+    }
+
+    function gameLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      drawBasket();
+      drawBall();
+      drawScore();
+      updateBall();
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    window.addEventListener('keydown', moveBasket);
+    gameLoop();
+  </script>
+</body>
+</html>
